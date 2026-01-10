@@ -5,58 +5,53 @@ class Nodo{
     public:
     int dato;
     Nodo* next;
-
+    Nodo*back;
 };
-// INSERCION
 void insertar(Nodo*& head, int valor){
     Nodo* nuevo = new Nodo();
     nuevo->dato = valor;
     nuevo ->next =nullptr;
+
     if(head == nullptr){
+        nuevo->back=nullptr;
         head = nuevo;
         return;
     }
-    Nodo* aux = head;
-    while (aux -> next!= nullptr){
-        aux = aux->next;
+    Nodo* actual = head;
+    while (actual -> next!= nullptr){
+        actual = actual->next;
     }
-    aux->next = nuevo;
+    actual->next = nuevo;
+    nuevo->back = actual;
 }
+
 //BUSQUEDA
 bool buscar(Nodo* head, int valor){
-    Nodo* aux = head;
-    while(aux != nullptr){
-        if(aux->dato==valor){
+    Nodo* actual = head;
+    while(actual != nullptr){
+        if(actual->dato==valor){
             return true;
         }
-        aux = aux->next;
+        actual = actual->next;
     }
     return false;
 }
 //ELIMINACION
 void eliminar(Nodo*& head, int valor){
     if(head == nullptr) return;
-    if(head->dato==valor){
-        Nodo* aux = head;
-        head= head->next;
-        delete aux;
-        cout <<"Elemento" <<valor<<" eliminado"<<endl;
-        return;
-    }
     Nodo* aux = head;
-    Nodo* anterior = nullptr;
-    while(aux != nullptr && aux->dato != valor){
-        anterior = aux;
-        aux = aux->next;
+    while(aux!=nullptr && aux->dato!=valor){
+        aux=aux->next;
+    }if (aux == nullptr) return;
+    if(aux->back!=nullptr){
+        aux->back->next=aux->next;
+    }else{
+        head=aux->next;
     }
-    if(aux == nullptr){
-        cout <<"Elemento " << valor<<" eliminar."<<endl;
-        return;
+    if(aux->next!=nullptr){
+        aux->next->back=aux->back;
     }
-    anterior->next = aux->next; 
-    delete aux; 
-
-    cout << "Elemento " << valor << " eliminado" << endl;
+    delete aux;
 }
 void imprimirLista(Nodo* head){
     Nodo* aux = head;
@@ -77,7 +72,7 @@ int main(){
     imprimirLista(lista);
     int buscar_este_numero= 10;
     if(buscar(lista,buscar_este_numero)){
-        cout << "El valor " << buscar_este_numero << " SI existe en la lista." << endl;
+        cout << "El valor " << buscar_este_numero << " SI existe en la lista doble." << endl;
     } else {
         cout << "El valor " << buscar_este_numero << " NO existe." << endl;
     }
@@ -89,4 +84,3 @@ int main(){
 
 
 }
-
