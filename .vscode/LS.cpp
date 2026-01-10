@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <algorithm> 
-
 using namespace std;
-
 class Nodo{
     public:
     int dato;
@@ -54,7 +51,12 @@ void eliminar(Nodo*& head, int valor){
     }
     if(actual == nullptr){
         cout <<"Elemento " << valor<<" eliminar."<<endl;
+        return;
     }
+    anterior->next = actual->next; 
+    delete actual; 
+
+    cout << "Elemento " << valor << " eliminado" << endl;
 }
 void imprimirLista(Nodo* head){
     Nodo* aux = head;
