@@ -57,7 +57,7 @@ void imprimirLista(Nodo* head){
     Nodo* aux = head;
     cout<<"Lista: ";
     while(aux != nullptr){
-        cout<<"["<< aux->dato<<"]->";
+        cout<<"["<< aux->dato<<"]<->";
         aux = aux->next;
     }
     cout<<"Null"<<endl;

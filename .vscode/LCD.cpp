@@ -10,20 +10,17 @@ class Nodo{
 void insertar(Nodo*& head, int valor){
     Nodo* nuevo = new Nodo();
     nuevo->dato = valor;
-    nuevo ->next =nullptr;
     if(head == nullptr){
         head = nuevo;
         nuevo->next = nuevo;
         nuevo->back= head;
         return;
     }
-    Nodo* aux = head;
-    while (aux -> next!= head){
-        aux = aux->next;
-    }
-    aux->next = nuevo;
+    Nodo* ultimo = head->back;
     nuevo->next = head;
-    nuevo->back = aux;
+    nuevo->back = ultimo;
+    ultimo->next = nuevo;
+    head->back = nuevo;
 }
 bool buscar(Nodo* head, int valor){
     if(head==nullptr) return false;
@@ -32,9 +29,10 @@ bool buscar(Nodo* head, int valor){
     do{
         if(inicio->dato == valor) return true;
         if(final->dato ==valor) return true;
+        if(inicio==final || inicio->back ==final) break;
         inicio= inicio->next;
         final=final->back;
-    }while(inicio==final || inicio->back ==final);
+    }while(true);
     return false;
 }
 void eliminar(Nodo*& head, int valor){
@@ -61,6 +59,7 @@ void eliminar(Nodo*& head, int valor){
         head=head->next;
     }
     aux->back->next=aux->next;
+    aux->next->back=aux->back;
     delete aux;
 }
 void imprimirLista(Nodo* head) {
@@ -87,7 +86,7 @@ int main(){
     insertar(lista,40);
 
     imprimirLista(lista);
-    int buscar_este_numero= 10;
+    int buscar_este_numero= 20;
     if(buscar(lista,buscar_este_numero)){
         cout << "El valor " << buscar_este_numero << " SI existe en la lista." << endl;
     } else {
